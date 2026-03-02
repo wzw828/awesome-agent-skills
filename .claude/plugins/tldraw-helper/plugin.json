@@ -1,0 +1,9 @@
+{
+  "name": "tldraw-helper",
+  "version": "1.0.0",
+  "description": "Helper plugin for programmatic drawing with tldraw Desktop via Local Canvas API",
+  "author": "likai",
+  "skills": ["skills/*.md"],
+  "commands": ["commands/*.md"],
+  "agents": ["agents/*.md"]
+}
