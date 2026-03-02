@@ -1,6 +1,6 @@
 {
   "enabledPlugins": {
     "plugin-dev@claude-plugins-official": true,
-    "agent-skills-toolkit@awesome-agentskills": true
+    "agent-skills-toolkit@awesome-agent-skills": true
   }
 }
