@@ -1,10 +1,23 @@
 # tldraw Helper Plugin
 
-A comprehensive Claude Code plugin for creating diagrams and visualizations using tldraw Desktop's Local Canvas API.
+A comprehensive Claude Code plugin for creating diagrams and visualizations using tldraw Desktop's Structured API.
+
+**Version:** 1.1.0
 
 ## Overview
 
-This plugin enables programmatic control of tldraw Desktop, allowing you to create professional diagrams, flowcharts, architecture diagrams, and more through simple commands and AI assistance.
+This plugin enables programmatic control of tldraw Desktop, allowing you to create professional diagrams, flowcharts, architecture diagrams, and more through simple commands and AI assistance. It uses the Structured API for reliable, easy-to-use shape manipulation.
+
+## What's New in 1.1.0
+
+- **Enhanced Structured API support** - Full coverage of all action types
+- **Advanced positioning actions** - `place`, `align`, `distribute`, `stack` for better layouts
+- **Transformation actions** - `resize`, `rotate` for dynamic diagrams
+- **Drawing actions** - `pen` for freehand paths and custom shapes
+- **Viewport control** - `setMyView` for camera navigation
+- **Simplified canvas clearing** - Use `clear` action instead of deleting shapes individually
+- **Comprehensive documentation** - New advanced-actions.md reference guide
+- **Better error handling** - Improved troubleshooting and best practices
 
 ## Prerequisites
 
@@ -167,6 +180,45 @@ The AI will understand and create an appropriate diagram.
 
 ## API Reference
 
+### Basic Actions
+
+- **create** - Create new shapes
+- **update** - Modify existing shapes
+- **delete** - Remove shapes
+- **clear** - Clear entire canvas (recommended over individual deletes)
+- **label** - Change shape text
+
+### Positioning Actions
+
+- **move** - Move shape to absolute position
+- **place** - Position shape relative to another (easier than manual coordinates)
+
+### Layout Actions
+
+- **align** - Align multiple shapes (top, bottom, left, right, center)
+- **distribute** - Distribute shapes evenly
+- **stack** - Stack shapes with specific gap
+
+### Transformation Actions
+
+- **resize** - Scale shapes by factor
+- **rotate** - Rotate shapes by degrees
+
+### Drawing Actions
+
+- **pen** - Create freehand paths and custom shapes
+
+### Viewport Actions
+
+- **setMyView** - Navigate viewport to specific region
+
+### Z-Order Actions
+
+- **bringToFront** - Bring shapes to front
+- **sendToBack** - Send shapes to back
+
+For detailed documentation, see [skills/tldraw-canvas-api/references/advanced-actions.md](skills/tldraw-canvas-api/references/advanced-actions.md).
+
 ### Check for Documents
 
 ```bash
@@ -178,7 +230,7 @@ curl -s http://localhost:7236/api/doc | jq .
 ```bash
 curl -X POST "http://localhost:7236/api/doc/DOC_ID/actions" \
   -H 'Content-Type: application/json' \
-  -d '{"actions": [...]}'
+  -d @/tmp/shapes.json
 ```
 
 ### Get Shapes

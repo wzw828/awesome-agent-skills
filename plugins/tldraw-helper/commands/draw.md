@@ -31,7 +31,7 @@ Create visual diagrams and illustrations using tldraw Desktop's Canvas API.
 
 1. Checks if tldraw Desktop is running and has an open document
 2. If no document exists, prompts the user to create one
-3. Clears the canvas (optional, will ask first)
+3. **Automatically clears the canvas** to provide a fresh workspace
 4. Creates the requested diagram based on the description
 5. Takes a screenshot to show the result
 
@@ -60,12 +60,34 @@ curl -s http://localhost:7236/api/doc | jq .
 
 If no documents found, ask the user to create one in tldraw Desktop (Cmd+N).
 
-2. **If diagram_type and description are not provided**, use AskUserQuestion to gather:
+2. **Get the document ID and clear the canvas:**
+
+```bash
+# Get document ID
+DOC_ID=$(curl -s http://localhost:7236/api/doc | jq -r '.docs[0].id')
+
+# Clear all existing shapes from canvas using the clear action
+cat > /tmp/clear.json << 'EOF'
+{
+  "actions": [
+    {"_type": "clear"}
+  ]
+}
+EOF
+
+curl -X POST "http://localhost:7236/api/doc/$DOC_ID/actions" \
+  -H 'Content-Type: application/json' \
+  -d @/tmp/clear.json
+```
+
+**Why clear first:** This ensures a fresh canvas for the new diagram without interference from previous drawings. The `clear` action is simpler and more efficient than deleting shapes individually.
+
+3. **If diagram_type and description are not provided**, use AskUserQuestion to gather:
    - What type of diagram do they want?
    - What should it contain?
    - Any specific style preferences?
 
-3. **Invoke the tldraw-canvas-api skill** using the Skill tool:
+4. **Invoke the tldraw-canvas-api skill** using the Skill tool:
 
 ```
 Skill(skill: "tldraw-helper:tldraw-canvas-api", args: "[diagram_type] [description]")
@@ -73,7 +95,7 @@ Skill(skill: "tldraw-helper:tldraw-canvas-api", args: "[diagram_type] [descripti
 
 **The skill will handle all diagram creation logic programmatically.**
 
-4. **Always take a screenshot at the end** to show the result.
+5. **Always take a screenshot at the end** to show the result.
 
 **IMPORTANT REMINDERS:**
 - The skill documentation contains ALL necessary API information
